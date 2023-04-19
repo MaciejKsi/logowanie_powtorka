@@ -10,7 +10,7 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "logowanie",
+  database: "kamil",
 });
 con.connect(function (err) {
   if (err) {
@@ -19,22 +19,38 @@ con.connect(function (err) {
   console.log("Połączono!");
 });
 
-const users = [
-  { user: "admin", pass: "admin", upr: "admin" },
-  { user: "user", pass: "user", upr: "user" },
-  { user: "Jan", pass: "Kowalski", upr: "user" },
-];
-
-app.get("/login/:login/:password", (req, res) => {
+app.get("/checkpassword/:login/:password", (req, res) => {
   const login = req.params.login;
   const password = req.params.password;
-  const sql = `SELECT * FROM użytkownicy WHERE login = '${login}' && pass = '${password}'`;
-  con.query(sql, (err, result, fields) => {
+  const sql = `SELECT * FROM hasla WHERE Login='${login}'`;
+  var passwords;
+  con.query(sql, function (err, result, fields) {
     if (err) console.log(err);
-
-    res.json({ user: result.login, upr: result.upr });
+    else {
+      passwords = result;
+      check(passwords);
+    }
   });
-  res.json({ status: "niezalogowano" });
+  var zmienna;
+  function check(passwords) {
+    console.log(passwords.length);
+    if (passwords.length == 0) {
+      zmienna = "no access";
+    } else {
+      if (
+        password == passwords[0].Password &&
+        passwords[0].uprawnienia == "admin"
+      ) {
+        zmienna = "admin";
+      } else if (
+        password == passwords[0].Password &&
+        passwords[0].uprawnienia == "user"
+      ) {
+        zmienna = "user";
+      }
+    }
+    res.send(zmienna);
+  }
 });
 app.listen(port, () => {
   console.log(`aplikacja działa na porcie ${port}`);
