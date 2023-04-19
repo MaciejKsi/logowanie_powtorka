@@ -1,7 +1,8 @@
 async function getUser() {
   const login = document.getElementById("login").value;
   const password = document.getElementById("password").value;
-  const data = await fetch(`http://localhost:3000/get/${login}/${password}`);
+
+  const data = await fetch(`http://localhost:3001/login/${login}/${password}`);
   const json = await data.json();
   console.log(json);
 
@@ -11,20 +12,15 @@ async function getUser() {
     localStorage.setItem("upr", "false");
   }
 }
-
 function checkUser() {
   const user = JSON.parse(localStorage.getItem("upr"));
-
-  const url = window.location.href;
-
-  if (user.upr != "admin" && url.includes("admin.html")) {
+  if (user.upr != "admin" && window.location.href.includes("/admin.html")) {
     window.location.href = "index.html";
-    alert("Nie masz uprawnień do tej strony!");
   }
 
   if (
     (user.upr != "user" || user.upr != "admin") &&
-    url.includes("user.html")
+    window.location.href.includes("/user.html")
   ) {
     window.location.href = "index.html";
   }
