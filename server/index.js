@@ -3,14 +3,14 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors());
-const port = 3000;
+const port = 3001;
 
 var mysql = require("mysql");
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "Logowanie",
+  database: "logowanie",
 });
 con.connect(function (err) {
   if (err) {
@@ -19,24 +19,39 @@ con.connect(function (err) {
   console.log("Połączono!");
 });
 
-const users = [
-  { user: "admin", pass: "admin", upr: "admin" },
-  { user: "user", pass: "user", upr: "user" },
-  { user: "Jan", pass: "Kowalski", upr: "user" },
-];
-
-app.get("/get/:user/:pass", function (req, res) {
-  const user = req.params.user;
-  const pass = req.params.pass;
-
-  for (let i = 0; i <= users.length - 1; i++) {
-    if (users[i].user == user && users[i].pass == pass) {
-      res.json({ user: user, upr: users[i].upr });
+app.get("/checkpassword/:login/:password", (req, res) => {
+  const login = req.params.login;
+  const password = req.params.password;
+  const sql = `SELECT * FROM hasla WHERE Login='${login}'`;
+  var passwords;
+  con.query(sql, function (err, result, fields) {
+    if (err) console.log(err);
+    else {
+      passwords = result;
+      check(passwords);
     }
+  });
+  var zmienna;
+  function check(passwords) {
+    console.log(passwords.length);
+    if (passwords.length == 0) {
+      zmienna = "no access";
+    } else {
+      if (
+        password == passwords[0].Password &&
+        passwords[0].uprawnienia == "admin"
+      ) {
+        zmienna = "admin";
+      } else if (
+        password == passwords[0].Password &&
+        passwords[0].uprawnienia == "user"
+      ) {
+        zmienna = "user";
+      }
+    }
+    res.send(zmienna);
   }
-  res.json({ status: "niezalogowano" });
 });
-
 app.listen(port, () => {
   console.log(`aplikacja działa na porcie ${port}`);
 });

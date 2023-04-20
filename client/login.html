@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <script src="app.js"></script>
     <title>Login</title>
   </head>
   <body>
@@ -20,10 +19,11 @@
 
     <div id="content" class="content">
       <div id="loginForm">
-        <input type="text" id="login" />
-        <input type="password" id="password" />
-        <button onclick="getUser()">Zaloguj</button>
+        <input type="text" placeholder="login" id="login" />
+        <input type="password" placeholder="hasło" id="password" />
+        <button onclick="logowanie()">Zaloguj</button>
       </div>
     </div>
   </body>
+  <script src="app.js"></script>
 </html>

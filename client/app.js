@@ -1,31 +1,26 @@
-async function getUser() {
+async function logowanie() {
   const login = document.getElementById("login").value;
   const password = document.getElementById("password").value;
-  const data = await fetch(`http://localhost:3000/get/${login}/${password}`);
-  const json = await data.json();
-  console.log(json);
 
-  if (json.user != undefined) {
-    localStorage.setItem("upr", JSON.stringify(json));
+  const data = await fetch(
+    `http://localhost:3001/checkpassword/${login}/${password}`
+  ).then((response) => response.text());
+  console.log(data);
+  if (data == "admin") {
+    localStorage.setItem("login", "admin");
+  } else if (data == "user") {
+    localStorage.setItem("login", "user");
   } else {
-    localStorage.setItem("upr", "false");
+    localStorage.setItem("login", "nie zalogowano");
   }
 }
-
-function checkUser() {
-  const user = JSON.parse(localStorage.getItem("upr"));
-
-  const url = window.location.href;
-
-  if (user.upr != "admin" && url.includes("admin.html")) {
-    window.location.href = "index.html";
-    alert("Nie masz uprawnień do tej strony!");
+function checklogin() {
+  if (localStorage.getItem("login") != "admin") {
+    window.location.href = "login.html";
   }
-
-  if (
-    (user.upr != "user" || user.upr != "admin") &&
-    url.includes("user.html")
-  ) {
-    window.location.href = "index.html";
+}
+function checkuser() {
+  if (localStorage.getItem("login") == "nie zalogowano") {
+    window.location.href = "login.html";
   }
 }
