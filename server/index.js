@@ -10,7 +10,11 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
+<<<<<<< HEAD
   database: "logowanie",
+=======
+  database: "kamil",
+>>>>>>> db71bbbdf96125cbfe06e32d4955ba8b1e7010e6
 });
 con.connect(function (err) {
   if (err) {
