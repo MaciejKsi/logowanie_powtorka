@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 14 Kwi 2023, 15:58
+-- Czas generowania: 20 Kwi 2023, 12:40
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.2.0
 
@@ -24,42 +24,32 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `użytkownicy`
+-- Struktura tabeli dla tabeli `hasla`
 --
 
-CREATE TABLE `użytkownicy` (
-  `ID` int(11) NOT NULL,
-  `User` text NOT NULL,
-  `Pass` text NOT NULL
+CREATE TABLE `hasla` (
+  `Login` varchar(50) NOT NULL,
+  `Password` text NOT NULL,
+  `uprawnienia` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Zrzut danych tabeli `użytkownicy`
+-- Zrzut danych tabeli `hasla`
 --
 
-INSERT INTO `użytkownicy` (`ID`, `User`, `Pass`) VALUES
-(1, 'Admin', 'Admin'),
-(2, 'User', 'User');
+INSERT INTO `hasla` (`Login`, `Password`, `uprawnienia`) VALUES
+('admin', 'admin', 'admin'),
+('user', 'user', 'user');
 
 --
 -- Indeksy dla zrzutów tabel
 --
 
 --
--- Indeksy dla tabeli `użytkownicy`
+-- Indeksy dla tabeli `hasla`
 --
-ALTER TABLE `użytkownicy`
-  ADD PRIMARY KEY (`ID`);
-
---
--- AUTO_INCREMENT dla zrzuconych tabel
---
-
---
--- AUTO_INCREMENT dla tabeli `użytkownicy`
---
-ALTER TABLE `użytkownicy`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `hasla`
+  ADD PRIMARY KEY (`Login`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
